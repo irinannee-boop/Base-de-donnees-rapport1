@@ -1,0 +1,306 @@
+\documentclass[12pt,a4paper]{article}
+
+%==================== PACKAGES ====================
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage[colorlinks=true,linkcolor=navy,urlcolor=navy]{hyperref}
+
+%==================== COULEURS ====================
+\definecolor{navy}{HTML}{15234A}
+\definecolor{evtorange}{HTML}{D9480F}
+\definecolor{scrollblue}{HTML}{5B9BD5}
+\definecolor{titleblue}{HTML}{2E74B5}
+
+%==================== MACROS ====================
+% Insère une image si elle existe, sinon un cadre de remplacement
+\newcommand{\img}[3][]{%
+  \IfFileExists{#2}{\includegraphics[#1]{#2}}{%
+    \fbox{\parbox[c][3cm][c]{0.6\linewidth}{\centering\small\textit{[#3]}\\ \texttt{\detokenize{#2}}}}}%
+}
+
+\newcommand{\sectiontitle}[1]{%
+  \vspace{0.4cm}\noindent{\Large\bfseries\color{navy}$\blacktriangleright$\ #1}\par\vspace{0.3cm}}
+\newcommand{\cattitle}[1]{%
+  \vspace{0.3cm}\noindent{\large\bfseries\itshape\color{titleblue}#1}\par\vspace{0.2cm}}
+
+% En-tête des tableaux du dictionnaire
+\newcommand{\dico}[1]{%
+ \renewcommand{\arraystretch}{1.35}
+ \begin{longtable}{|>{\raggedright\arraybackslash}p{2.7cm}|>{\raggedright\arraybackslash}p{4.3cm}|c|c|>{\raggedright\arraybackslash}p{2.4cm}|>{\raggedright\arraybackslash}p{3.3cm}|}
+ \hline
+ \rowcolor{white}
+ \textbf{\color{navy}NOM DES RUBRIQUES} & \textbf{\color{navy}SIGNIFICATION} & \textbf{\color{navy}TYPE} & \textbf{\color{navy}Taille} & \textbf{\color{navy}CONTRAINTE} & \textbf{\color{navy}RÈGLE DE CALCUL}\\ \hline
+ \endfirsthead
+ \hline
+ \textbf{\color{navy}NOM DES RUBRIQUES} & \textbf{\color{navy}SIGNIFICATION} & \textbf{\color{navy}TYPE} & \textbf{\color{navy}Taille} & \textbf{\color{navy}CONTRAINTE} & \textbf{\color{navy}RÈGLE DE CALCUL}\\ \hline
+ \endhead
+ #1
+ \end{longtable}
+ \renewcommand{\arraystretch}{1}
+}
+\usepackage{colortbl}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small ENSPY -- Génie Électrique et Télécommunications}
+\fancyhead[R]{\small Rapport 1 -- EVTMM}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.4em}
+
+\begin{document}
+
+%==================== PAGE DE GARDE ====================
+\thispagestyle{empty}
+
+\noindent\fbox{%
+\begin{minipage}{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}
+\small
+\begin{minipage}[t]{0.38\linewidth}
+\centering
+REPUBLIQUE DU CAMEROUN\\[2pt]
+Paix-Travail-Patrie\\[2pt]
+***************\\[2pt]
+UNIVERSITE DE YAOUNDE I\\[2pt]
+*******************\\[2pt]
+ECOLE NATIONALE SUPERIEURE POLYTECHNIQUE DE YAOUNDE\\[2pt]
+****************\\[2pt]
+DEPARTEMENT DES GENIES ELECTRIQUE ET DES TELECOMMUNICATIONS\\[2pt]
+****************
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.18\linewidth}
+\centering\vspace{0.8cm}
+\img[width=\linewidth]{logoenspy.png}{Logo ENSPY}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.38\linewidth}
+\centering
+REPUBLIC OF CAMEROON\\[2pt]
+Peace-Work-Fatherland\\[2pt]
+*****************\\[2pt]
+UNIVERSITY OF YAOUNDE I\\[2pt]
+*******************\\[2pt]
+NATIONAL ADVANCED SCHOOL OF ENGINEERING OF YAOUNDE\\[2pt]
+*****************\\[2pt]
+DEPARTMENT OF ELECTRICAL ENGINEERING AND TELECOMMUNICATIONS\\[2pt]
+*************
+\end{minipage}
+\end{minipage}}
+
+\vspace{1.2cm}
+
+\begin{center}
+\colorbox{scrollblue}{%
+\parbox{0.88\textwidth}{\centering\vspace{1cm}
+{\LARGE\color{white}\scshape Conception d'une base de donnée relationnelle et d'une application de génération rapide de factures et devis\par}
+\vspace{1cm}}}
+\end{center}
+
+\vspace{1.5cm}
+
+\noindent{\Large\underline{\textbf{\textit{Rapport 1 :}}}}
+{\Large\bfseries\scshape\color{navy} Création de l'identité complète de l'entreprise fictive, analyse de l'existant et rédaction du dictionnaire des données.}
+
+\vfill
+
+\begin{center}
+\renewcommand{\arraystretch}{1.3}
+\small
+\begin{tabular}{|>{\raggedright\arraybackslash}p{3cm}|c|>{\raggedright\arraybackslash}p{2.6cm}|>{\raggedright\arraybackslash}p{5.6cm}|c|}
+\hline
+\textbf{Noms et Prénoms} & \textbf{Matricule} & \textbf{Rôle assigné} & \textbf{Responsabilité dans la conception du premier rapport} & \textbf{Participation}\\\hline
+OYONO ABAH EMMANUEL B. & 23P174 & Chef de Projet & Coordination générale, répartition des tâches et participation dans la réalisation de celles-ci & 19\,\%\\\hline
+TADIA EGOKO MANUELLA & 24P341 & Sous-chef & Réalisation complète du dictionnaire de données & 19\,\%\\\hline
+NNE'E NGONO IRINA ORNICHA & 24P288 & Qualité \& Documentation & Réalisation du tableau des anomalies d'Excel et de ses parades ; rédaction du rapport et compilation du modèle \LaTeX{} et dépôt GitHub & 19\,\%\\\hline
+NGOUNE ASSABOU VANIQUE & 25P885 & Développeur Front-End & Création de l'identité visuelle fictive de l'entreprise (logo, cachet, signature, en-tête) et réalisation des affiches de l'entreprise & 19\,\%\\\hline
+SALLA METO'O YANN ADAM D. & 24P505 & Développeur Back-End & Apport dans la recherche des différentes rubriques de l'entreprise et de leur saisie & 19\,\%\\\hline
+TANGOMO CHRIST PUJALTE & 26Q374 & -- & Participation à la création de l'entreprise & 5\,\%\\\hline
+\end{tabular}
+\end{center}
+
+\vspace{0.6cm}
+\begin{center}
+\textbf{SUPERVISION : Dr. MBIETIEU AMOS}\\[4pt]
+Année scolaire 2026--2027
+\end{center}
+
+\newpage
+
+%==================== INTRODUCTION ====================
+\begin{center}
+{\Large\bfseries\itshape\underline{\color{navy}Introduction}}
+\end{center}
+
+\vspace{0.3cm}
+\noindent\img[height=3.2cm]{icone.png}{Icône EVTMM}
+
+\vspace{0.5cm}
+\begin{center}
+\img[width=0.75\linewidth]{fiche d'identite 1.jpeg}{Fiche d'identité EVTMM (Fig. 01)}
+\end{center}
+
+\newpage
+
+\begin{center}
+\img[width=0.35\linewidth]{cachetfondblanc.png}{Cachet EVTMM (SPECIMEN)}
+\hfill
+\img[width=0.35\linewidth]{signaturefondblanc.png}{Signature du gérant}
+\end{center}
+
+\textbf{\textsc{L'EVTMM (Entreprise de Vente de Téléphones Mobiles du Mboa)}} est une boutique camerounaise spécialisée dans la téléphonie mobile, située à Yaoundé.
+Notre objet est la vente de téléphones mobiles neufs et d'occasion, ainsi que de leurs accessoires et d'appareils tels que les casques audio, les écouteurs et les enceintes Bluetooth.
+Nous proposons également des services de proximité pour nos clients, notamment la livraison rapide, la réparation de batteries, de chargeurs et d'écrans, ainsi que l'installation et le transfert de données.
+Chez \textbf{EVTMM}, notre slogan est : \textit{\textcolor{gray}{« EVTMM, proche de vous, proche de votre budget »}}.
+Notre mission est simple : offrir à chaque client un produit de qualité, à un prix abordable, avec un service fiable et de confiance.
+
+\begin{center}
+\img[width=0.8\linewidth]{logofondblanc.png}{Logo EVTMM}
+\end{center}
+
+Après avoir présenté l'entreprise \textbf{EVTMM}, son objet et ses activités, il est maintenant nécessaire d'identifier et d'organiser les informations qu'elle manipule au quotidien.
+En effet, pour bien gérer les ventes, les clients, les stocks et les réparations, l'entreprise utilise plusieurs données. Le dictionnaire de données ci-dessous permet de définir chaque donnée, son code, sa signification, son type, sa taille, sa contrainte et sa règle de calcul.
+
+\sectiontitle{\textsc{Dictionnaire de données}}
+
+%---------- Catégorie 1
+\cattitle{1. CATEGORIE 1 : INFORMATION SUR L'ENTREPRISE}
+\dico{
+Id\_ent & Identifiant unique de l'entreprise & AN & 20 & Obligatoire, unique & -- \\ \hline
+Nom\_ent & EVTMM (Entreprise de Vente de Téléphones Mobiles du Mboa) & A & 20 & Obligatoire & Paramètre global fixe \\ \hline
+Forme\_juridique & SARL (Société Anonyme et capital social de 10 millions) & AN & 50 & Obligatoire & Paramètre global fixe \\ \hline
+Logo\_ent & Fichier du logo commercial & AN & 255 & Obligatoire & Format SVG ou PNG $\geq$ 600 px \\ \hline
+Cachet\_ent & Fichier du cachet officiel & AN & 255 & Obligatoire & Doit comporter la mention <<~SPECIMEN~>> ; PNG transparent \\ \hline
+Sign\_ent & Fichier de la signature du gérant & AN & 255 & Obligatoire & Signature numérique \\ \hline
+Slogan\_ent & Slogan marketing & AN & 100 & -- & EVTMM proche de toi, proche de ton budget \\ \hline
+Add\_ent & Adresse physique de l'entreprise & AN & 150 & Obligatoire & Quartier : MELEN, ville : YAOUNDE, boîte postale : BP 4587 \\ \hline
+Tel\_ent & Numéro de téléphone officiel & AN & 20 & Obligatoire & +237 600 00 01 10 \\ \hline
+e.mail\_ent & Courriel professionnel & AN & 100 & Obligatoire & Evtm.m@gmail.com \\ \hline
+Niu\_ent & Numéro NIU de EVTMM & AN & 15 & Unique, obligatoire & 41111111111111111111 1 (fictif) \\ \hline
+Rccm\_ent & Registre du commerce (RCCM) & AN & 20 & Unique, obligatoire & Cm-yde-2027-b-45872 (fictif) \\ \hline
+}
+
+%---------- Catégorie 2
+\cattitle{2. CATEGORIE 2 : INFORMATION SUR LE CLIENT}
+\dico{
+Id\_client & Identifiant client & AN & 20 & Obligatoire et unique & \\ \hline
+Nom\_client & Nom ou raison sociale du client & A & 80 & Obligatoire & Saisie libre du nom de la personne ou de l'entreprise \\ \hline
+Code\_client & Code unique du client & AN & 8 & Unique, obligatoire & \\ \hline
+Niu\_client & Numéro d'Identifiant Unique client & AN & 15 & Unique & Obligatoire pour un client de type personne morale \\ \hline
+Adr\_fact & Adresse de facturation & AN & 150 & Obligatoire & \\ \hline
+Tel\_client & Numéro de téléphone du client & N & 10 & Obligatoire & Saisie numérique \\ \hline
+Email\_client & Adresse email du client & AN & 50 & Obligatoire & \\ \hline
+Type\_client & Catégorie de client & A & 13 & Obligatoire & Personne physique ou morale \\ \hline
+Adr\_livr & Adresse de livraison & AN & 150 & Obligatoire & \\ \hline
+}
+
+\begin{center}
+\img[width=0.6\linewidth]{le prix.jpeg}{Affiche 01 -- « Un prix pour chacun »}
+\end{center}
+
+%---------- Catégorie 3
+\cattitle{3. CATEGORIE 3 : INFORMATION SUR LES ARTICLES ET SERVICES}
+\dico{
+Art\_id & Identifiant de l'article & AN & 20 & Unique et obligatoire & \\ \hline
+fam\_art & Nom de la famille de produits & A & 50 & Obligatoire & Téléphone reconditionné ou pas, accessoire, \ldots \\ \hline
+Art\_unite & Unité de vente / mesure & A & 10 & Obligatoire & Par pièce, par pack, par course \\ \hline
+Art\_reference & Référence unique du produit & AN & 10 & Unique, obligatoire & ex : P-BAR-01, P-CREV-02 \\ \hline
+Art\_designation & Nom du produit & AN & 150 & Obligatoire & Ex = smartphone \\ \hline
+Art\_prix & Prix unitaire catalogue HT & N & 14 & $>0$, obligatoire & Prix de référence du jour \\ \hline
+Ref\_sr & Référence du service & AN & 34 & Unique et obligatoire & Ex = S-NET-01 \\ \hline
+Desig\_ser & Désignation du service & AN & 150 & Obligatoire & Ex = livraison \\ \hline
+Pj\_sr & Prix journalier du service & N & 14 & Obligatoire & \\ \hline
+}
+
+\begin{center}
+\img[width=0.6\linewidth]{le choix.jpeg}{Affiche 02 -- « Le choix : vingt références »}
+\end{center}
+
+%---------- Catégorie 4
+\cattitle{4. CATEGORIE 4 : ENTÊTE DES DOCUMENTS (DEVIS, FACTURE)}
+\dico{
+Id\_doc & Identifiant unique du document & AN & 20 & Unique, obligatoire & \\ \hline
+Type\_doc & Type de document & A & 7 & Obligatoire & DEVIS ou FACTURE \\ \hline
+Num\_doc & Numéro unique du document & AN & 13 & Unique, obligatoire & Format DEV-2027-001 ou FAC-2027-001 \\ \hline
+D\_e\_doc & Date d'émission & D & -- & Obligatoire & \\ \hline
+D\_echeance\_doc & Durée de validité du devis & N & 2 & Obligatoire & 30 jours par défaut \\ \hline
+Statut\_doc & État actuel du document & A & 15 & Obligatoire & Brouillon, Émis, Payé, Annulé \\ \hline
+Remise\_doc & Taux de remise globale (\%) & N & 5 & Entre 0 et 100 & En pourcentage \\ \hline
+Tva\_doc & Taux de TVA applicable & N & 5 & Obligatoire & Fixé à 19,25\,\% \\ \hline
+Auteur\_creation & Identifiant de l'utilisateur ayant créé l'article & AN & 20 & Obligatoire & Pour la traçabilité \\ \hline
+}
+
+%---------- Catégorie 5
+\cattitle{5. CATEGORIE 5 : LIGNE DU DOCUMENT}
+\dico{
+Lig\_id & Identifiant unique d'une ligne & AN & 10 & Unique, obligatoire & -- \\ \hline
+pu\_app & Prix unitaire appliqué & N & 14 & $>0$, obligatoire & Recopié et figé au moment de l'émission \\ \hline
+Lig\_quantite & Quantité & N & 12,2 & $>0$, obligatoire & Nombre de pièces \\ \hline
+mt\_Ligne & Montant des articles HT de la ligne & N & 14 & Obligatoire & qte\_fact $\times$ pu\_app (ql $\times$ pul) \\ \hline
+Mt\_sr\_ligne & Montant des services & N & 14 & Obligatoire & jl $\times$ px $\times$ pjl \\ \hline
+St\_ligne & Sous-total de secteur & N & 14 & Obligatoire & Somme des mt\_ligne du document ($\sum$ mt\_Ligne) \\ \hline
+Ht\_brut & Total brut hors taxes & N & 14 & Obligatoire & $\sum$ St \\ \hline
+R\_ligne & Montant de la remise totale & N & 14 & Obligatoire & Arrondi (ht\_brut $\times$ remise\_doc/100) \\ \hline
+Ht\_net & Montant net hors taxes & N & 14 & Obligatoire & Ht\_brut $-$ R\_ligne \\ \hline
+Mt\_tva & Montant cumulé de la taxe & N & 14 & Obligatoire & Arrondi (ht\_net $\times$ 19,25/100) \\ \hline
+tot\_ttc & Total toutes taxes comprises & N & 14 & Obligatoire & Ht\_net $+$ Mt\_tva \\ \hline
+reste\_payer & Reste à encaisser & N & 14 & Obligatoire & tot\_ttc $-$ $\sum$ reglement \\ \hline
+}
+
+\begin{center}
+\img[width=0.6\linewidth]{fiche d'identite.jpeg}{Registre des mentions (Fig. 02)}
+\end{center}
+
+\newpage
+
+%==================== ANOMALIES ET PARADES ====================
+Après avoir présenté notre dictionnaire de données, il est important de relever les difficultés rencontrées lors de la gestion manuelle avec Excel. En effet, l'utilisation d'Excel présente plusieurs anomalies qui rendent le travail lent et risquent de provoquer des erreurs. Le tableau ci-dessous présente ces anomalies, de A1 à A8, ainsi que les parades proposées pour chacune d'elles afin d'améliorer la gestion de l'entreprise :
+
+\sectiontitle{\textsc{Anomalies et parades}}
+
+\renewcommand{\arraystretch}{1.4}
+\begin{longtable}{|c|>{\raggedright\arraybackslash}p{6.2cm}|>{\raggedright\arraybackslash}p{8.2cm}|}
+\hline
+\textbf{N$^\circ$} & \textbf{ANOMALIE} & \textbf{PARADE}\\ \hline
+\endhead
+A1 & Donnée dérivée saisie au lieu d'être calculée $\Rightarrow$ incohérence & Ne pas stocker les données calculées : \texttt{mt\_ligne = qte $\times$ pu\_app}, total HT, TVA, TTC et montant en lettres sont recalculés à l'affichage (vue ou requête). \\ \hline
+A2 & Redondance non contrôlée, absence de référentiel (catalogue) & Créer une table ARTICLE (catalogue) avec un prix unitaire de référence. Les lignes de devis pointent vers l'article par clé étrangère. \\ \hline
+A3 & Absence de contrainte de domaine et d'identifiant d'article & Identifiant d'article (\texttt{ref\_art}) + tables MARQUE et ARTICLE : on choisit dans une liste (clé étrangère) au lieu de retaper le texte. \\ \hline
+A4 & Absence de clé et de contrôle d'unicité & Clé primaire (unicité garantie) avec numérotation automatique (\texttt{AUTO\_INCREMENT} / \texttt{SERIAL}). Clé composée possible : (\texttt{num\_devis}, \texttt{num\_ligne}). \\ \hline
+A5 & Erreur de saisie non détectable automatiquement & Le libellé n'est plus saisi : la section devient une entité (table SECTION) et le sous-total est calculé (\texttt{SUM} groupé par section). \\ \hline
+A6 & Absence de contraintes \texttt{NOT NULL} et d'identification & \texttt{NOT NULL} (client, date), type \texttt{DATE} (refuse une date incomplète), clé primaire \texttt{num\_devis} générée automatiquement, client identifié par \texttt{code\_cli} (table CLIENT). \\ \hline
+A7 & Redondance : un changement de numéro $=$ 9 modifications & Stocker l'en-tête une seule fois (table ENTREPRISE ou paramètres), référencé partout. Un changement $=$ 1 seule modification. \\ \hline
+A8 & Absence de contrainte d'intégrité (\texttt{CHECK} prix $>0$) & Contrainte d'intégrité : \texttt{CHECK (pu\_app > 0)} et \texttt{CHECK (qte > 0)}. \\ \hline
+\end{longtable}
+\renewcommand{\arraystretch}{1}
+
+%==================== DIFFICULTÉS ====================
+\sectiontitle{\textsc{Difficultés rencontrées}}
+
+Hormis les difficultés rencontrées avec Excel, nous avons également eu quelques difficultés sur le plan manuel et technique :
+\begin{itemize}[label=$\blacktriangleright$]
+  \item La création de l'entreprise entièrement fictive ;
+  \item La création du logo et de la signature en SVG et PNG à fond transparent ;
+  \item La création du cachet avec son texte en cercle et la mention « SPECIMEN » qui demandait de la précision ;
+  \item L'identification des règles de calcul des rubriques.
+\end{itemize}
+
+%==================== AVANCEMENT ====================
+\sectiontitle{\textsc{Avancement du projet}}
+
+Concernant l'avancement du projet, nous avons déjà mis en place les outils nécessaires à sa réalisation, notamment la base de données MySQL ainsi que le dépôt GitHub pour la gestion du code. Actuellement, nous sommes en phase de familiarisation avec ces différents logiciels afin d'en maîtriser le fonctionnement avant de débuter le développement.
+
+\end{document}
