@@ -1,0 +1,306 @@
+% !TEX program = pdflatex
+% ============================================================
+% BD2026 - Groupe 08 - Rapport 2 (projet_factures_devis)
+% Compilation : pdflatex rapport_avancement_modele.tex (x2)
+% Les images sont attendues dans le dossier ./figures/
+% Si une image est absente, un cadre de substitution est affiché.
+% ============================================================
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[a4paper,margin=2.2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{listings}
+\usepackage[most]{tcolorbox}
+\usepackage{caption}
+\usepackage[colorlinks=true,urlcolor=blue!60!black,linkcolor=black]{hyperref}
+
+% ---------- Couleurs ----------
+\definecolor{navy}{HTML}{1F2F5C}
+\definecolor{accent}{HTML}{E07B39}
+\definecolor{banner}{HTML}{5B9BD5}
+\definecolor{rowgray}{HTML}{F2F4F8}
+
+% ---------- Titres ----------
+\titleformat{\section}
+  {\normalfont\Large\bfseries\color{navy}}{\thesection.}{0.5em}{}[\color{navy}\titlerule]
+\titleformat{\subsection}
+  {\normalfont\large\bfseries\itshape\color{accent}}{\thesubsection}{0.5em}{}
+\titlespacing*{\section}{0pt}{1.4em}{0.8em}
+\titlespacing*{\subsection}{0pt}{1.1em}{0.5em}
+
+% ---------- En-tête / pied ----------
+\pagestyle{fancy}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\fancyfoot[C]{\small\thepage}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.5em}
+\captionsetup{labelformat=empty}
+
+% ---------- Macros de figures ----------
+% \figimg{largeur}{fichier}{hauteur de substitution}
+\newcommand{\figimg}[3]{%
+  \IfFileExists{#2}{%
+    \includegraphics[width=#1]{#2}}{%
+    \fbox{\parbox[c][#3][c]{#1}{\centering\small\color{gray}[Image manquante : \texttt{\detokenize{#2}}]}}}}
+
+% Figure pleine largeur avec légende « Fig. X — texte »
+\newcommand{\figfull}[5]{%
+  \begin{center}
+    \figimg{#1}{#2}{#3}\\[2pt]
+    {\small\textbf{#4} --- \textit{#5}}
+  \end{center}}
+
+% Deux figures côte à côte
+\newcommand{\figpair}[8]{%
+  \begin{center}
+  \begin{minipage}[t]{0.485\textwidth}\centering
+    \figimg{\linewidth}{#1}{#3}\\[2pt]{\small\textbf{#2} --- \textit{#4}}
+  \end{minipage}\hfill
+  \begin{minipage}[t]{0.485\textwidth}\centering
+    \figimg{\linewidth}{#5}{#7}\\[2pt]{\small\textbf{#6} --- \textit{#8}}
+  \end{minipage}
+  \end{center}}
+
+% ---------- Style SQL (annexes) ----------
+\lstdefinestyle{sqlstyle}{
+  language=SQL, basicstyle=\ttfamily\footnotesize,
+  keywordstyle=\color{navy}\bfseries, commentstyle=\color{gray}\itshape,
+  breaklines=true, frame=single, numbers=left, numberstyle=\tiny\color{gray}}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\begin{document}
+
+% ============================================================
+%                       PAGE DE GARDE
+% ============================================================
+\thispagestyle{empty}
+
+\begin{center}
+\begin{minipage}[t]{0.35\textwidth}
+\centering\scriptsize\bfseries
+REPUBLIQUE DU CAMEROUN\\[2pt]
+{\normalfont Paix-Travail-Patrie}\\[2pt]
+***************\\[4pt]
+UNIVERSITE DE YAOUNDE I\\[2pt]
+*******************\\[4pt]
+ECOLE NATIONALE SUPERIEURE POLYTECHNIQUE DE YAOUNDE\\[2pt]
+****************\\[4pt]
+DEPARTEMENT DES GENIES ELECTRIQUE ET DES TELECOMMUNICATIONS\\[2pt]
+****************
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.22\textwidth}
+\centering
+\vspace{0.8cm}
+\figimg{\linewidth}{logo_enspy.png}{2.5cm}
+\end{minipage}%
+\hfill
+\begin{minipage}[t]{0.35\textwidth}
+\centering\scriptsize\bfseries
+REPUBLIC OF CAMEROON\\[2pt]
+{\normalfont Peace-Work-Fatherland}\\[2pt]
+*****************\\[4pt]
+UNIVERSITY OF YAOUNDE I\\[2pt]
+*******************\\[4pt]
+NATIONAL ADVANCED SCHOOL OF ENGINEERING OF YAOUNDE\\[2pt]
+*****************\\[4pt]
+DEPARTMENT OF ELECTRICAL ENGINEERING AND TELECOMMUNICATIONS\\[2pt]
+*************
+\end{minipage}
+\end{center}
+
+\vspace{1.2cm}
+\begin{center}
+\small D\'epartement de G\'enie T\'el\'ecommunications --- 3\textsuperscript{e} ann\'ee (2026--2027)\\
+Cours : Bases de donn\'ees (BD2026)
+\end{center}
+
+\vspace{0.3cm}
+\begin{tcolorbox}[colback=banner,colframe=banner!70!black,arc=6mm,
+  halign=center,boxrule=1pt,top=10pt,bottom=10pt]
+{\fontsize{26}{30}\selectfont\color{accent}\scshape Base de donn\'ees : Rapport 2}
+\end{tcolorbox}
+
+\begin{center}
+\textbf{Projet :} projet\_factures\_devis\\[4pt]
+\textbf{Groupe :} Groupe 08 (G08)\\[4pt]
+\textbf{Archive pr\'evue :} BD2026\_G08\_R2.zip\\[4pt]
+\textbf{Date :} 25 novembre 2026\\[4pt]
+\textbf{D\'ep\^ot Git :} \url{https://github.com/irinannee-boop/Base-de-donnees-rapport1}
+\end{center}
+
+\vspace{0.4cm}
+{\large\bfseries\itshape\color{accent} Membres du groupe et r\'epartition des taux de participation}
+
+\vspace{0.4em}
+\renewcommand{\arraystretch}{1.5}
+\rowcolors{2}{white}{rowgray}
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{3.6cm} p{2.6cm} X >{\centering\arraybackslash}p{1.3cm}}
+\rowcolor{navy}
+\color{white}\bfseries Nom et pr\'enoms & \color{white}\bfseries Fili\`ere & \color{white}\bfseries R\^ole & \color{white}\bfseries Taux \\
+OYONO ABAH Emmanuel\newline 23P174 & G\'enie T\'el\'ecom (3A) & Chef de projet / UML cas d'utilisation, maquettes des \'ecrans et du PDF & 20\,\% \\
+TADIA Manuella\newline 24P341 & G\'enie T\'el\'ecom (3A) & Diagrammes UML de classes et de s\'equence & 20\,\% \\
+SALLA METO'O\newline 24P505 & G\'enie T\'el\'ecom (3A) & Conception du MCD & 20\,\% \\
+NGOUNE Vanique\newline 25P885 & G\'enie T\'el\'ecom (4A) & D\'ebut d'\'elaboration du MLD & 20\,\% \\
+NNE'E NGONO Irina\newline 24P288 & G\'enie T\'el\'ecom (3A) & Appui au MCD et aux diagrammes UML (arr\^et maladie partiel), compilation \LaTeX{} et d\'ep\^ot sur GitHub & 19\,\% \\
+TANGOMO CHRIST PUJALTE\newline 26Q374 & G\'enie T\'el\'ecom (3A) & Participation marginale (membre inactif) & 1\,\% \\
+\rowcolor{white}
+\textbf{Total} & & & \textbf{100\,\%} \\
+\end{tabularx}
+\renewcommand{\arraystretch}{1}
+
+\vspace{0.5em}
+{\small\textit{Note de compilation : le total des taux est fix\'e \`a 100\,\%. Les matricules des membres sont renseign\'es directement dans le fichier source \LaTeX{} (\texttt{rapport\_avancement\_modele.tex}) avant g\'en\'eration du PDF final.}}
+
+\newpage
+
+% ============================================================
+\section{Contexte et p\'erim\`etre du projet\_factures\_devis}
+% ============================================================
+Le projet \texttt{projet\_factures\_devis} porte sur la structuration et la gestion des donn\'ees li\'ees aux devis et aux factures au sein d'une activit\'e de prestation ou de vente. Ce deuxi\`eme rapport bimensuel (R2) rend compte de l'avancement du Groupe~08 \`a la date du 25 novembre 2026, en appui sur le d\'ep\^ot \texttt{Base-de-donnees-rapport1}.
+
+\subsection{P\'erim\`etre fonctionnel vis\'e}
+La base de donn\'ees doit permettre de suivre le cycle de vie commercial des documents : identification des clients, catalogue des prestations ou articles, \'etablissement de devis, conversion ou association d'un devis \`a une facture, d\'etail des lignes chiffr\'ees et suivi des r\`eglements ou statuts de paiement.
+
+\subsection{R\`egles de gestion \`a respecter}
+\begin{itemize}[leftmargin=1.5em]
+  \item Chaque client dispose d'un identifiant unique et d'informations de contact permettant l'\'emission des documents.
+  \item Un devis et une facture portent chacun une r\'ef\'erence unique, une date d'\'emission et un \'etat d'avancement.
+  \item Chaque ligne de devis ou de facture rattache une prestation/article, une quantit\'e et un prix unitaire de r\'ef\'erence ou factur\'e.
+  \item Les montants totaux (hors taxes, taxes \'eventuelles et net \`a payer) doivent rester coh\'erents avec les lignes associ\'ees et les r\`egles de calcul retenues.
+\end{itemize}
+
+% ============================================================
+\section{Mod\'elisation des donn\'ees}
+% ============================================================
+Cette section regroupe les \'el\'ements de conception retenus pour \texttt{projet\_factures\_devis} : mod\`ele de donn\'ees, diagrammes UML et maquettes. Le script SQL complet sera int\'egr\'e en annexe du document \LaTeX{} final (voir Annexe~A en fin de rapport).
+
+\subsection{Entit\'es et associations principales}
+\begin{itemize}[leftmargin=1.5em]
+  \item \textbf{Client} : caract\'erise le tiers destinataire des devis et factures (coordonn\'ees, type de client).
+  \item \textbf{Devis} : proposition chiffr\'ee \'emise \`a une date donn\'ee, rattach\'ee \`a un client, avec statut (brouillon, envoy\'e, accept\'e, refus\'e, converti).
+  \item \textbf{Facture} : document comptable/commercial \'emis pour un client, pouvant \^etre issue d'un devis ou cr\'e\'ee directement, avec statut de r\`eglement.
+  \item \textbf{Article / Prestation} : \'el\'ement facturable (d\'esignation, unit\'e, tarif unitaire).
+  \item \textbf{Ligne\_Devis} et \textbf{Ligne\_Facture} : tables associatives portant la quantit\'e et le prix unitaire appliqu\'e afin d'\'eviter qu'une modification future du catalogue n'alt\`ere l'historique.
+\end{itemize}
+
+Le mod\`ele conceptuel de donn\'ees (MCD) ci-dessous formalise ces entit\'es et leurs cardinalit\'es :
+
+\figfull{0.95\textwidth}{mcd.png}{9cm}{Figure A.1}{Mod\`ele conceptuel de donn\'ees (MCD) du syst\`eme EVTMM}
+
+\subsection{Sch\'ema logique et normalisation}
+Le passage au mod\`ele logique relationnel repose sur l'attribution de cl\'es primaires explicites, la mat\'erialisation des relations un-\`a-plusieurs par cl\'es \'etrang\`eres et l'\'eclatement des relations plusieurs-\`a-plusieurs (notamment entre documents et articles/prestations). Les tables sont organis\'ees pour \'eviter les redondances non fonctionnelles. Le mod\`ele logique de donn\'ees (MLD), entam\'e \`a partir du MCD, est pr\'esent\'e ci-dessous.
+
+\figfull{0.8\textwidth}{mld.png}{9cm}{Figure A.2}{Mod\`ele logique de donn\'ees (MLD) : d\'ebut d'\'elaboration}
+
+\subsection{Livrables de conception du rapport R2}
+Les livrables de conception produits pour ce rapport sont pr\'esent\'es directement dans les sous-sections suivantes (2.1 \`a 2.6), class\'es par nature : donn\'ees, UML, maquettes des \'ecrans, maquettes PDF. Le tableau ci-dessous r\'ecapitule l'auteur de chacun et son emplacement dans le document.
+
+\renewcommand{\arraystretch}{1.4}
+\rowcolors{2}{white}{rowgray}
+\begin{tabularx}{\textwidth}{X X l}
+\rowcolor{navy}
+\color{white}\bfseries Livrable & \color{white}\bfseries R\'ealis\'e par & \color{white}\bfseries Emplacement \\
+Mod\`ele conceptuel de donn\'ees (MCD) & Salla Meto'o (appui : Nne'e Ngono) & \S2.1, Fig.\ A.1 \\
+Mod\`ele logique de donn\'ees (MLD), d\'ebut d'\'elaboration & Ngoune Vanique & \S2.2, Fig.\ A.2 \\
+Diagramme UML de cas d'utilisation & Oyono Abah Emmanuel & \S2.4, Fig.\ B.1 \\
+Diagramme de classes & Tadia Manuella & \S2.4, Fig.\ B.2 \\
+Diagramme de s\'equence (\'emission et PDF de facture) & Tadia Manuella (appui : Nne'e Ngono) & \S2.4, Fig.\ B.3 \\
+Maquettes des 8 \'ecrans de l'application & Oyono Abah Emmanuel & \S2.5, Fig.\ C.1 \`a C.8 \\
+Maquettes PDF du devis et de la facture & Oyono Abah Emmanuel & \S2.6, Fig.\ D.1 et D.2 \\
+\end{tabularx}
+\renewcommand{\arraystretch}{1}
+\rowcolors{1}{}{}
+
+\subsection{Mod\'elisation UML}
+Les trois figures sont reconstitu\'ees \`a partir des fichiers de mod\'elisation StarUML du groupe.
+
+\figpair{dutilisation.png}{Fig.\ B.1}{9cm}{Diagramme de cas d'utilisation}%
+        {dsequence.png}{Fig.\ B.3}{9cm}{Diagramme de s\'equence (\'emission facture + PDF)}
+
+\figfull{\textwidth}{dclasse.png}{10cm}{Figure B.2}{Diagramme de classes EVTMM (version corrig\'ee)}
+
+\subsection{Maquettes des \'ecrans de l'application}
+
+\figpair{ecranconnection.png}{Fig.\ C.1}{4cm}{\'Ecran de connexion}%
+        {tableaubord.png}{Fig.\ C.2}{4cm}{Tableau de bord}
+
+\figpair{listedocument.png}{Fig.\ C.3}{4cm}{Liste des documents (devis, factures, avoirs)}%
+        {editeurdevis.png}{Fig.\ C.4}{4cm}{\'Editeur de devis (devis en pr\'eparation)}
+
+\figpair{detaildefacture.png}{Fig.\ C.5}{4cm}{D\'etail d'une facture et r\`eglements}%
+        {gestionclient.png}{Fig.\ C.6}{4cm}{Gestion des clients}
+
+\figpair{cataloguearticle.png}{Fig.\ C.7}{4cm}{Catalogue des articles et prestations}%
+        {parametrageentreprise.png}{Fig.\ C.8}{4cm}{Param\'etrage de l'entreprise}
+
+\subsection{Maquettes des documents PDF}
+Maquettes des documents PDF g\'en\'er\'es par l'application (documents fictifs, \`a valeur p\'edagogique).
+
+\figpair{maquettedevis.png}{Fig.\ D.1}{9cm}{Maquette PDF du devis (DEV-2026-0005)}%
+        {maquettefacture.png}{Fig.\ D.2}{9cm}{Maquette PDF de la facture (FAC-2026-0007)}
+
+% ============================================================
+\section{Impl\'ementation SQL et v\'erifications}
+% ============================================================
+\subsection{Structure des tables et contraintes d'int\'egrit\'e}
+Les scripts de cr\'eation pr\'ecisent les types de donn\'ees adapt\'es (identifiants, cha\^ines, montants num\'eriques pr\'ecis, dates), les cl\'es primaires et \'etrang\`eres, ainsi que les contraintes de domaine (quantit\'es strictement positives, prix unitaires non n\'egatifs, coh\'erence des dates et valeurs autoris\'ees pour les statuts).
+
+\subsection{Jeux d'essai et requ\^etes de contr\^ole}
+Un jeu de donn\'ees initial couvre plusieurs clients, devis et factures afin de tester les insertions valides, le rejet des violations de contraintes (cl\'e \'etrang\`ere inexistante, quantit\'e n\'egative, doublon de num\'ero) et les requ\^etes d'exploitation (liste des factures par client, montant total par document, devis en attente).
+
+% ============================================================
+\section{Contribution individuelle et suivi Git}
+% ============================================================
+Les taux de participation indiqu\'es en page de garde refl\`etent la r\'epartition effective du travail sur \texttt{projet\_factures\_devis} et l'activit\'e enregistr\'ee sur le d\'ep\^ot \url{https://github.com/irinannee-boop/Base-de-donnees-rapport1}. Les quatre membres actifs \`a part \'egale (Oyono, Tadia, Salla et Ngoune) assurent chacun 20\,\% ; Nne'e Ngono est positionn\'ee \`a 19\,\% compte tenu d'un arr\^et maladie durant la p\'eriode ; Christ Pujalte figure \`a 1\,\% en raison d'une contribution quasi nulle sur le d\'ep\^ot.
+
+\textbf{OYONO ABAH Emmanuel (20\,\%) :} Chef de projet : coordination du groupe, cadrage de \texttt{projet\_factures\_devis} et validation des choix sur le d\'ep\^ot Git. Pour le rapport R2, a r\'ealis\'e le diagramme UML de cas d'utilisation (5 acteurs : utilisateur, commercial, comptable, administrateur et planificateur ; 23 cas d'utilisation avec leurs relations d'inclusion et d'extension), les maquettes des 8 \'ecrans de l'application (connexion, tableau de bord, documents, \'editeur de devis, facture, clients, catalogue, entreprise) et les maquettes PDF du devis et de la facture.
+
+\textbf{TADIA Manuella (20\,\%) :} Pour le rapport R2, a r\'ealis\'e les diagrammes UML : le diagramme de classes corrig\'e (document, devis, facture, avoir, client, article, service, ligne de document, ligne de main-d'\oe uvre, r\`eglement, TVA, compteur, journal d'audit, etc.) et le diagramme de s\'equence corrig\'e de l'\'emission d'une facture et de la g\'en\'eration de son PDF (6 participants, 37 messages, dont l'attribution du num\'ero d\'efinitif et l'enregistrement dans le journal d'audit) avec la participation de Nne'e Ngono.
+
+\textbf{SALLA METO'O (20\,\%) :} Pour le rapport R2, a r\'ealis\'e le MCD (mod\`ele conceptuel de donn\'ees) : identification des entit\'es (document, client, article, services, lignes de document et de main-d'\oe uvre, section, famille, unit\'e, TVA, compteur, r\`eglement, utilisateur, journal d'audit, entreprise, adresse client, devis, facture, avoir), de leurs attributs et des cardinalit\'es des associations avec la participation de Nne'e Ngono.
+
+\textbf{NGOUNE Vanique (20\,\%) :} Pour le rapport R2, a entam\'e l'\'elaboration du MLD (mod\`ele logique de donn\'ees) \`a partir du MCD : tables, cl\'es primaires et cl\'es \'etrang\`eres, et tables issues des associations.
+
+\textbf{NNE'E NGONO Irina (19\,\%) :} Pour le rapport R2, a aid\'e Salla dans la construction du MCD et Tadia dans la r\'ealisation des diagrammes UML de classes et de s\'equence, avec un retrait ponctuel li\'e \`a un \'episode de maladie, et a r\'ealis\'e la compilation en \LaTeX{} et le d\'ep\^ot sur GitHub.
+
+\textbf{TANGOMO CHRIST PUJALTE (1\,\%) :} Activit\'e r\'esiduelle / absence de contribution substantielle constat\'ee sur le p\'erim\`etre et l'historique du d\'ep\^ot.
+
+% ============================================================
+\section{Points ouverts et suite des travaux}
+% ============================================================
+\subsection{Points de vigilance}
+Les principaux points d'attention portent sur la gestion fine de l'historique des prix unitaires lors de la transformation d'un devis en facture, la pr\'ecision des calculs de totaux et la v\'erification de la coh\'erence entre les scripts SQL et la documentation \LaTeX{}.
+
+\subsection{Prochaines \'etapes}
+\begin{itemize}[leftmargin=1.5em]
+  \item Consolider les scripts SQL et les requ\^etes de contr\^ole dans le d\'ep\^ot Git.
+  \item Assembler l'archive \texttt{BD2026\_G08\_R2.zip} (PDF compil\'e et fichiers sources) pour le d\'ep\^ot dans les d\'elais.
+\end{itemize}
+
+% ============================================================
+\section*{Annexes}
+\addcontentsline{toc}{section}{Annexes}
+% ============================================================
+Les \'el\'ements suivants n'ont pas encore de contenu graphique disponible et seront int\'egr\'es dans la version finale du document \LaTeX{}.
+
+\textbf{Annexe A --- Scripts SQL :} cr\'eation des tables, contraintes et donn\'ees de test (\`a int\'egrer).
+
+% Exemple d'int\'egration future :
+% \lstinputlisting[style=sqlstyle]{sql/creation_tables.sql}
+
+\textbf{Annexe B --- Historique Git :} extrait de l'historique du d\'ep\^ot \texttt{Base-de-donnees-rapport1} (\`a int\'egrer).
+
+\end{document}
